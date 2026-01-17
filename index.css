@@ -1,0 +1,316 @@
+@import 'tailwindcss';
+@config "./tailwind.config.js";
+
+body {
+  font-family: 'Noto Serif SC', serif;
+  background-color: #1c1c1a;
+  color: #e6e6dc;
+  height: 100vh;
+  height: 100dvh; /* 使用动态视口高度，移动端更准确 */
+  width: 100vw;
+  width: 100dvw; /* 使用动态视口宽度 */
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* 移动端安全区域支持 - 通过其他选择器处理 */
+
+/* 移动端优化 */
+@media (max-width: 768px) {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+  button,
+  a {
+    touch-action: manipulation;
+    -webkit-touch-callout: none;
+  }
+}
+
+/* 移动端头部安全区域适配 */
+.safe-area-header {
+  /* 基础内边距，确保在没有安全区域时也有间距 */
+  padding-top: 0.5rem;
+}
+
+/* 对于支持安全区域的设备，添加额外的顶部内边距 */
+@supports (padding-top: env(safe-area-inset-top)) {
+  .safe-area-header {
+    /* 在有安全区域的设备上，使用安全区域顶部内边距 */
+    padding-top: calc(env(safe-area-inset-top, 0px) + 0.5rem);
+  }
+}
+
+/* 移动端弹窗安全区域适配 */
+@supports (height: calc(90vh - env(safe-area-inset-bottom))) {
+  .safe-area-modal {
+    /* 在移动端，高度需要考虑底部安全区域 */
+    height: calc(90vh - env(safe-area-inset-bottom, 0px));
+    max-height: calc(90vh - env(safe-area-inset-bottom, 0px));
+  }
+}
+
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .safe-area-footer {
+    /* 底部按钮区域添加安全区域内边距 */
+    padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+    margin-bottom: 0;
+  }
+}
+
+/* WebKit 浏览器 (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(28, 28, 26, 0.5);
+  border-radius: 5px;
+  border: 1px solid rgba(203, 161, 53, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #cba135 0%, #8a6d2f 100%);
+  border-radius: 5px;
+  border: 1px solid rgba(203, 161, 53, 0.3);
+  transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #d4ad47 0%, #9a7d3f 100%);
+  box-shadow: 0 0 8px rgba(203, 161, 53, 0.5);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(180deg, #b89530 0%, #7a5d2a 100%);
+}
+
+/* Firefox 浏览器 */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #cba135 rgba(28, 28, 26, 0.5);
+}
+
+/* 隐藏滚动条的工具类 */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* 弹窗内容区域滚动条优化 */
+.modal-scroll-container {
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #cba135 rgba(28, 28, 26, 0.5);
+  max-height: 80vh;
+}
+
+.modal-scroll-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-scroll-container::-webkit-scrollbar-track {
+  background: rgba(28, 28, 26, 0.3);
+  border-radius: 4px;
+  margin: 4px 0;
+}
+
+.modal-scroll-container::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #cba135 0%, #8a6d2f 100%);
+  border-radius: 4px;
+  border: 1px solid rgba(203, 161, 53, 0.3);
+}
+
+.modal-scroll-container::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #d4ad47 0%, #9a7d3f 100%);
+}
+
+/* 弹窗结构优化 */
+.modal-fixed-header {
+  position: sticky;
+  top: 0;
+  background: inherit;
+  z-index: 10;
+  border-bottom: 1px solid rgba(203, 161, 53, 0.2);
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+
+.modal-scroll-content {
+  flex: 1 1 0% !important;
+  min-height: 0 !important;
+  overflow-y: auto !important;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* 当同时使用两个类时，确保滚动正常工作 */
+.modal-scroll-container.modal-scroll-content {
+  flex: 1 1 0% !important;
+  min-height: 0 !important;
+  overflow-y: auto !important;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* 移动端弹窗滚动优化 */
+@media (max-width: 768px) {
+  .modal-scroll-container {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .modal-fixed-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+  }
+
+  .modal-scroll-content {
+    margin-top: 20px; /* 为固定头部留出空间 */
+  }
+}
+
+/* 寿元将尽特效 */
+@keyframes lifespan-pulse {
+  0% {
+    box-shadow: inset 0 0 20px rgba(220, 38, 38, 0);
+  }
+  50% {
+    box-shadow: inset 0 0 60px rgba(220, 38, 38, 0.4);
+  }
+  100% {
+    box-shadow: inset 0 0 20px rgba(220, 38, 38, 0);
+  }
+}
+
+.lifespan-warning {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  animation: lifespan-pulse 2s infinite;
+  border: 4px solid rgba(220, 38, 38, 0.2);
+}
+
+.lifespan-warning-text {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #ef4444;
+  font-size: 2rem;
+  font-weight: bold;
+  text-shadow:
+    0 0 10px rgba(0, 0, 0, 0.8),
+    0 0 20px rgba(239, 68, 68, 0.5);
+  pointer-events: none;
+  z-index: 10000;
+  opacity: 0.8;
+  white-space: nowrap;
+}
+
+/* 抽奖系统特效 */
+@keyframes bagua-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spirit-orbit {
+  0% {
+    transform: rotate(var(--rotation)) translateX(60px)
+      rotate(calc(-1 * var(--rotation)));
+    opacity: 0;
+    scale: 0.5;
+  }
+  50% {
+    opacity: 1;
+    scale: 1.2;
+  }
+  100% {
+    transform: rotate(calc(var(--rotation) + 360deg)) translateX(0px)
+      rotate(calc(-1 * (var(--rotation) + 360deg)));
+    opacity: 0;
+    scale: 0.2;
+  }
+}
+
+@keyframes draw-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-in-out;
+}
+
+.animate-bagua {
+  animation: bagua-rotate 10s linear infinite;
+}
+
+.spirit-particle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  margin-top: -8px;
+  margin-left: -8px;
+  border-radius: 50%;
+  filter: blur(2px);
+  animation: spirit-orbit 2s ease-in-out infinite;
+  box-shadow: 0 0 15px currentColor;
+}
+
+.draw-button-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: draw-shimmer 2s infinite;
+}
+
+/* 隐藏数值输入框的加减按钮 */
+input[type='number'] {
+  appearance: none;
+  -moz-appearance: textfield;
+  /* Chrome, Safari, Edge, Opera */
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+/* 确保所有状态下的数值输入框都隐藏加减按钮 */
+input[type='number']:hover,
+input[type='number']:focus,
+input[type='number']:active {
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}

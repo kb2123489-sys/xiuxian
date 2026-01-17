@@ -1,0 +1,1 @@
+export { useCharacterHandlers } from './useCharacterHandlers';
