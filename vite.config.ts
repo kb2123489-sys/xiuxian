@@ -31,7 +31,7 @@ const getProxyTarget = () => {
 };
 
 export default defineConfig({
-  base: '/', // Vercel 部署使用根路径
+  base: '/', 
   server: {
     proxy: {
       '/api': {
