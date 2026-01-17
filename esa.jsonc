@@ -1,0 +1,32 @@
+{
+    "build": {
+        "command": "npm run build"
+    },
+    "assets": {
+        "directory": "./dist"
+    },
+    "routes": [
+        {
+            "src": "^/assets/.*$",
+            "headers": {
+                "Cache-Control": "max-age=31536000"
+            }
+        },
+        {
+            "src": "^/favicon\\.(svg|png|ico)$",
+            "headers": {
+                "Cache-Control": "max-age=31536000"
+            }
+        },
+        {
+            "src": "^/.*\\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$",
+            "headers": {
+                "Cache-Control": "max-age=31536000"
+            }
+        },
+        {
+            "src": ".*",
+            "dest": "/index.html"
+        }
+    ]
+}
