@@ -145,7 +145,7 @@ function GameHeader({
         >
           云灵修仙
         </h1>
-        <div className="flex items-center gap-2">
+        {/* <div className="flex items-center gap-2">
           <span
             className="text-xs md:text-sm text-stone-400 font-mono px-2 py-1 bg-stone-800 rounded border border-stone-700"
             title="当前版本"
@@ -161,7 +161,7 @@ function GameHeader({
               {onlineCount}
             </span>
           )}
-        </div>
+        </div> */}
       </div>
       {/* Mobile Menu Button */}
       <button
